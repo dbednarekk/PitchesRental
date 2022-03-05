@@ -1,10 +1,13 @@
-package com.pitchrent.pitchesrental.entities;
+package com.pitchrent.pitchesrental.entities.rentals;
 
+import com.pitchrent.pitchesrental.entities.pitches.BasketballPitch;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import java.util.Objects;
+
 
 @Entity
 @Getter
@@ -13,22 +16,16 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
-    private String street;
-    private String city;
-    private String country;
-    private String postCode;
+public class BasketballPitchRental extends Rental {
+    @OneToOne
+    private BasketballPitch basketballPitch;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Address address = (Address) o;
-        return id != null && Objects.equals(id, address.id);
+        BasketballPitchRental that = (BasketballPitchRental) o;
+        return getId() != null && Objects.equals(getId(), that.getId());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.pitchrent.pitchesrental.entities;
+package com.pitchrent.pitchesrental.entities.users;
 
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -6,29 +6,29 @@ import org.hibernate.Hibernate;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
+@MappedSuperclass
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
 @AllArgsConstructor
-public class Address {
+@NoArgsConstructor
+public abstract class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
-    private String street;
-    private String city;
-    private String country;
-    private String postCode;
+    private String login;
+    private String password;
+    private String email;
+    private Boolean active;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Address address = (Address) o;
-        return id != null && Objects.equals(id, address.id);
+        Account account = (Account) o;
+        return id != null && Objects.equals(id, account.id);
     }
 
     @Override

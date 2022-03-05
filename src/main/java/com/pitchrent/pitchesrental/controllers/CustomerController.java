@@ -2,7 +2,7 @@ package com.pitchrent.pitchesrental.controllers;
 
 import com.pitchrent.pitchesrental.dto.CustomerDTO;
 import com.pitchrent.pitchesrental.entities.Address;
-import com.pitchrent.pitchesrental.entities.Customer;
+import com.pitchrent.pitchesrental.entities.users.Customer;
 import com.pitchrent.pitchesrental.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
