@@ -15,7 +15,6 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 public class FootballPitchRental extends Rental {
     @OneToOne
     private FootballPitch footballPitch;

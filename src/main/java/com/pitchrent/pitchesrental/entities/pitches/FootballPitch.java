@@ -12,7 +12,6 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
 @AllArgsConstructor
 public class FootballPitch extends Pitch {
     private GroundType groundType;

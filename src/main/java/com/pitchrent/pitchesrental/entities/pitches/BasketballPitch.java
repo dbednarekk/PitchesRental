@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Objects;
 
 @Entity
@@ -12,9 +13,8 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 public class BasketballPitch extends Pitch {
-
+    @PositiveOrZero
     private Integer numberOfBaskets;
     private Boolean fullSize;
 

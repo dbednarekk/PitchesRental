@@ -11,9 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class Manager extends Account{
     @Override
     public boolean equals(Object o) {

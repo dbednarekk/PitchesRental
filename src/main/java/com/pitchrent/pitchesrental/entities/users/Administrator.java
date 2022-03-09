@@ -11,9 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Administrator extends Account{
     @Override
     public boolean equals(Object o) {

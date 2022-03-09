@@ -6,6 +6,8 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Objects;
 
 @MappedSuperclass
@@ -14,7 +16,6 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 public abstract class Pitch {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,13 +24,18 @@ public abstract class Pitch {
     private String name;
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE})
     private Address address;
+    @PositiveOrZero
     private Long price;
+    @PositiveOrZero
     private Integer minPeople;
+    @Min(2)
     private Integer maxPeople;
     private PitchType pitchType;
     private Boolean lights;
     private Boolean rented;
     private Boolean active;
+    @Version
+    private Long version;
 
     @Override
     public boolean equals(Object o) {

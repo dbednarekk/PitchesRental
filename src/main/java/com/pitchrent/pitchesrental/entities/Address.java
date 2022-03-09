@@ -11,7 +11,6 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
 @AllArgsConstructor
 public class Address {
     @Id
@@ -22,7 +21,8 @@ public class Address {
     private String city;
     private String country;
     private String postCode;
-
+    @Version
+    private Long version;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

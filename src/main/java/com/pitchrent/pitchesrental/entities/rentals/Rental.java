@@ -3,6 +3,7 @@ package com.pitchrent.pitchesrental.entities.rentals;
 import com.pitchrent.pitchesrental.entities.users.Customer;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,18 +14,21 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
 @AllArgsConstructor
 public class Rental {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
+   // @DateTimeFormat(iso = ISO.DATE)
     private LocalDateTime startDate;
+   // @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDateTime endDate;
     @OneToOne
     private Customer customer;
     private Boolean active;
+    @Version
+    private Long version;
 
     @Override
     public boolean equals(Object o) {
