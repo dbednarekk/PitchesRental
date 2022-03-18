@@ -25,6 +25,7 @@ public class Rental {
    // @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDateTime endDate;
     @OneToOne
+    @JoinColumn(updatable = false, nullable = false, name = "customer_id")
     private Customer customer;
     private Boolean active;
     @Version

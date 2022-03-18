@@ -4,7 +4,9 @@ import com.pitchrent.pitchesrental.entities.pitches.FootballPitch;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import java.util.Objects;
 
@@ -15,8 +17,10 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
+@DiscriminatorValue("FootballPitchRental")
 public class FootballPitchRental extends Rental {
     @OneToOne
+    @JoinColumn(updatable = false, nullable = false, name = "football_pitch_id")
     private FootballPitch footballPitch;
 
     @Override

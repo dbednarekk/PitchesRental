@@ -4,6 +4,7 @@ import com.pitchrent.pitchesrental.entities.enums.GroundType;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
+@DiscriminatorValue("FootballPitch")
 public class FootballPitch extends Pitch {
     private GroundType groundType;
     private Boolean goalNets;

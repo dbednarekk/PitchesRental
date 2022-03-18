@@ -10,29 +10,44 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.Objects;
 
-@MappedSuperclass
+@Entity
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 
-public abstract class Account {
+public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "ACCOUNT_SEQ_GEN", sequenceName = "account_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCOUNT_SEQ_GEN")
     @Column(name = "id", nullable = false)
     private Long id;
     @Login
+    @Column(unique=true)
     private String login;
     @Password
     private String password;
     @Email
     private String email;
     private Boolean active;
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE})
+    private AccessLevel accessLevel;
     @Version
     @PositiveOrZero
     private Long version;
 
+    public Account(String login, String password, String email, Boolean active) {
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.active = active;
+    }
+    public Account(String login,  String email, Boolean active) {
+        this.login = login;
+        this.email = email;
+        this.active = active;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -23,6 +23,14 @@ public class Address {
     private String postCode;
     @Version
     private Long version;
+
+    public Address(String street, String city, String country, String postCode) {
+        this.street = street;
+        this.city = city;
+        this.country = country;
+        this.postCode = postCode;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

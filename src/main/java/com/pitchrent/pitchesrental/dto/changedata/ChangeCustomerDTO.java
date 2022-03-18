@@ -1,7 +1,8 @@
-package com.pitchrent.pitchesrental.dto;
+package com.pitchrent.pitchesrental.dto.changedata;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pitchrent.pitchesrental.common.SignableEntity;
+import com.pitchrent.pitchesrental.dto.AddressDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,11 +10,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerDTO implements SignableEntity {
-    private Long id;
+public class ChangeCustomerDTO implements SignableEntity {
+
     private String login;
     private String email;
-    private Boolean active;
     private String firstName;
     private String lastName;
     private AddressDTO address;

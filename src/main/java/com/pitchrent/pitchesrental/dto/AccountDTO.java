@@ -9,14 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerDTO implements SignableEntity {
+public class AccountDTO implements SignableEntity {
     private Long id;
     private String login;
     private String email;
     private Boolean active;
-    private String firstName;
-    private String lastName;
-    private AddressDTO address;
+    private String accessLevel;
     private Long version;
     @JsonIgnore
     @Override

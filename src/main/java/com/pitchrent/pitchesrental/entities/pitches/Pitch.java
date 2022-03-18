@@ -10,7 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.Objects;
 
-@MappedSuperclass
+@Entity
 @Getter
 @Setter
 @ToString
@@ -23,6 +23,7 @@ public abstract class Pitch {
     private Long id;
     private String name;
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE})
+    @JoinColumn(updatable = false, nullable = false, name = "address_id")
     private Address address;
     @PositiveOrZero
     private Long price;

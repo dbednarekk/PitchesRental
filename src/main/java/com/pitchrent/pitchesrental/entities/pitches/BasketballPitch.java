@@ -3,6 +3,7 @@ package com.pitchrent.pitchesrental.entities.pitches;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.Objects;
@@ -13,6 +14,7 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
+@DiscriminatorValue("BasketballPitch")
 public class BasketballPitch extends Pitch {
     @PositiveOrZero
     private Integer numberOfBaskets;

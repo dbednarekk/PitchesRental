@@ -4,9 +4,7 @@ import com.pitchrent.pitchesrental.entities.Address;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -14,24 +12,25 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@AllArgsConstructor
-public class Customer extends Account {
+@DiscriminatorValue("Customer")
+public class Customer extends AccessLevel{
 
     private String firstName;
     private String lastName;
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE})
+    @JoinColumn(updatable = false, nullable = false, name = "address_id")
     private Address address;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Customer customer = (Customer) o;
-        return getId() != null && Objects.equals(getId(), customer.getId());
+
+    public Customer(String firstName, String lastName, Address address) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
     }
 
+
     @Override
-    public int hashCode() {
-        return getClass().hashCode();
+    public String getAccessLevelType() {
+        return "Customer";
     }
 }
