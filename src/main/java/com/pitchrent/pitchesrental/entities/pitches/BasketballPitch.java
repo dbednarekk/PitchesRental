@@ -1,5 +1,7 @@
 package com.pitchrent.pitchesrental.entities.pitches;
 
+import com.pitchrent.pitchesrental.entities.Address;
+import com.pitchrent.pitchesrental.entities.enums.PitchType;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -19,6 +21,12 @@ public class BasketballPitch extends Pitch {
     @PositiveOrZero
     private Integer numberOfBaskets;
     private Boolean fullSize;
+
+    public BasketballPitch(String uuid, String name, Address address, Long price, Integer minPeople, Integer maxPeople, PitchType pitchType, Boolean lights, Boolean rented, Boolean active, Integer numberOfBaskets, Boolean fullSize) {
+        super(uuid, name, address, price, minPeople, maxPeople, pitchType, lights, rented, active);
+        this.numberOfBaskets = numberOfBaskets;
+        this.fullSize = fullSize;
+    }
 
     @Override
     public boolean equals(Object o) {

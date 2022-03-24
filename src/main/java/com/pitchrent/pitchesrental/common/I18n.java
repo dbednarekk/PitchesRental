@@ -8,4 +8,8 @@ public class I18n {
     public static final String LOGIN_TAKEN= "error.login.unique.constraint";
     public static final String NO_LOGIN_FOUND = "error.account.login.not.found";
     public static final String OPTIMISTIC_LOCK_EXCEPTION = "error.exception.optimistic.lock";
+    public static final String ETAG_EXCEPTION = "error.exception.etag.integrity";
+    public static final String NAME_TAKEN = "error.pitch.name.unique.constraint";
+    public static final String PITCH_NOT_FOUND = "error.pitch.not.found";
+    public static final String PITCH_RESERVED = "error.pitch.already.reserved";
 }
