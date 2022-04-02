@@ -12,4 +12,6 @@ public class I18n {
     public static final String NAME_TAKEN = "error.pitch.name.unique.constraint";
     public static final String PITCH_NOT_FOUND = "error.pitch.not.found";
     public static final String PITCH_RESERVED = "error.pitch.already.reserved";
+    public static final String RENT_CANNOT_UPDATE = "error.rent.cannot.update";
+    public static final String RENT_CANNOT_REMOVE = "error.rent.cannot.remove";
 }
