@@ -6,6 +6,7 @@ import com.pitchrent.pitchesrental.dto.rentals.RentalDTO;
 import com.pitchrent.pitchesrental.dto.rentals.UpdateRentDTO;
 import com.pitchrent.pitchesrental.exceptions.BaseException;
 import com.pitchrent.pitchesrental.exceptions.RentalManagerException;
+import com.pitchrent.pitchesrental.exceptions.RepositoryException;
 import com.pitchrent.pitchesrental.managers.RentalManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,25 +19,29 @@ import java.util.List;
 @RequestMapping(path = "/Rental")
 public class RentalController {
 
+    private final RentalManager rentalManager;
+
     @Autowired
-    private RentalManager rentalManager;
+    public RentalController(RentalManager rentalManager) {
+        this.rentalManager = rentalManager;
+    }
 
 
     @GetMapping(path = "/")
     @ResponseStatus(HttpStatus.OK)
-    public List<RentalDTO> getAllRentals(){
+    public List<RentalDTO> getAllRentals() {
         return rentalManager.getAllRentals();
     }
 
     @GetMapping(path = "/{uuid}")
     @ResponseStatus(HttpStatus.OK)
-    public RentalDTO getRentByUUID(@PathVariable String uuid ){
+    public RentalDTO getRentByUUID(@PathVariable String uuid) throws BaseException {
         return rentalManager.getRentByUUID(uuid);
     }
 
     @PostMapping(path = "/addRent")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createRent(@RequestBody CreateRentDTO dto){
+    public void createRent(@RequestBody CreateRentDTO dto) {
         rentalManager.createRental(dto);
     }
 
@@ -59,19 +64,19 @@ public class RentalController {
     @ResponseStatus(HttpStatus.OK)
     public void endRental(@PathVariable String uuid, @RequestBody Long version) throws BaseException {
 
-        rentalManager.endRental(uuid,version);
+        rentalManager.endRental(uuid, version);
     }
 
     @GetMapping("/rentsForPitch/{pitchUUID}")
     @ResponseStatus(HttpStatus.OK)
-    public List<RentalDTO> getRentsForPitch(@PathVariable String pitchUUID){
+    public List<RentalDTO> getRentsForPitch(@PathVariable String pitchUUID) {
         return rentalManager.getRentsForPitch(pitchUUID);
     }
 
 
     @GetMapping("/rentsForCustomer/{login}")
     @ResponseStatus(HttpStatus.OK)
-    public List<RentalDTO> getRentsForCustomer(@PathVariable String login){
+    public List<RentalDTO> getRentsForCustomer(@PathVariable String login) {
         return rentalManager.getRentsForCustomer(login);
     }
 

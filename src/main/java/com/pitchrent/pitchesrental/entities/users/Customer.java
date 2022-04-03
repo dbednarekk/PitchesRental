@@ -1,6 +1,7 @@
 package com.pitchrent.pitchesrental.entities.users;
 
 import com.pitchrent.pitchesrental.entities.Address;
+import com.pitchrent.pitchesrental.validators.CustomerName;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -14,8 +15,9 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @DiscriminatorValue("Customer")
 public class Customer extends AccessLevel{
-
+    @CustomerName
     private String firstName;
+    @CustomerName
     private String lastName;
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(updatable = false, nullable = false, name = "address_id")

@@ -12,6 +12,7 @@ import com.pitchrent.pitchesrental.entities.users.Customer;
 import com.pitchrent.pitchesrental.entities.users.Manager;
 import com.pitchrent.pitchesrental.exceptions.AccountManagerException;
 import com.pitchrent.pitchesrental.exceptions.BaseException;
+import com.pitchrent.pitchesrental.exceptions.RepositoryException;
 import com.pitchrent.pitchesrental.managers.mappers.AccountMapper;
 import com.pitchrent.pitchesrental.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,24 +22,33 @@ import javax.annotation.ManagedBean;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.pitchrent.pitchesrental.common.I18n.*;
+import static com.pitchrent.pitchesrental.common.I18n.LOGIN_TAKEN;
+import static com.pitchrent.pitchesrental.common.I18n.NO_LOGIN_FOUND;
+import static com.pitchrent.pitchesrental.common.Utils.checkForOptimisticLock;
 
 @ManagedBean
 public class AccountManager {
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
-    public List<AccountDTO> getAll(){
+    private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public AccountManager(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
+        this.accountRepository = accountRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+
+    public List<AccountDTO> getAll() {
         List<AccountDTO> res = new ArrayList<>();
         for (Account ac : accountRepository.findAll()
-             ) {
+        ) {
             res.add(AccountMapper.toAccountDTO(ac));
         }
-       return res;
+        return res;
     }
-    public List<CustomerDTO> getAllCustomers(){
+
+    public List<CustomerDTO> getAllCustomers() {
         List<CustomerDTO> res = new ArrayList<>();
         for (Account ac : accountRepository.getAllCustomers()
         ) {
@@ -47,7 +57,8 @@ public class AccountManager {
         }
         return res;
     }
-    public List<AccountDTO> getAllManagers(){
+
+    public List<AccountDTO> getAllManagers() {
         List<AccountDTO> res = new ArrayList<>();
         for (Account ac : accountRepository.getAllManagers()
         ) {
@@ -55,7 +66,8 @@ public class AccountManager {
         }
         return res;
     }
-    public List<AccountDTO> getAllAdmins(){
+
+    public List<AccountDTO> getAllAdmins() {
         List<AccountDTO> res = new ArrayList<>();
         for (Account ac : accountRepository.getAllAdmins()
         ) {
@@ -63,61 +75,64 @@ public class AccountManager {
         }
         return res;
     }
-    public AccountDTO getAccountByLogin( String login) throws BaseException {
+
+    public AccountDTO getAccountByLogin(String login) throws BaseException {
         try {
             return AccountMapper.toAccountDTO(accountRepository.findAccountByLogin(login));
-        }catch (NullPointerException e){
-            throw new AccountManagerException(NO_LOGIN_FOUND);
+        } catch (NullPointerException e) {
+            throw new RepositoryException(NO_LOGIN_FOUND);
         }
     }
-    public CustomerDTO getCustomerByLogin( String login) throws BaseException {
+
+    public CustomerDTO getCustomerByLogin(String login) throws BaseException {
         try {
             Account ac = accountRepository.findCustomerByLogin(login);
             return AccountMapper.toCustomerDTO(ac, (Customer) ac.getAccessLevel());
-        }catch (NullPointerException e){
-            throw new AccountManagerException(NO_LOGIN_FOUND);
+        } catch (NullPointerException e) {
+            throw new RepositoryException(NO_LOGIN_FOUND);
         }
 
     }
 
-
     public void createCustomer(CustomerRegisterDTO dto) throws BaseException {
-        for (Account acc: accountRepository.findAll()
-             ) {
-            if( acc.getLogin().equals(dto.getLogin())) throw new AccountManagerException(LOGIN_TAKEN);
+        for (Account acc : accountRepository.findAll()
+        ) {
+            if (acc.getLogin().equals(dto.getLogin())) throw new AccountManagerException(LOGIN_TAKEN);
         }
         Customer customer = AccountMapper.toCustomerWithPassword(dto);
-        Account account = AccountMapper.toAccountWithPassword(dto,passwordEncoder.encode(dto.getPassword()));
+        Account account = AccountMapper.toAccountWithPassword(dto, passwordEncoder.encode(dto.getPassword()));
         account.setAccessLevel(customer);
         customer.setAccount(account);
         accountRepository.save(account);
     }
 
-    public void createManager(AccountRegisterDTO account)throws BaseException{
-        for (Account acc: accountRepository.findAll()
+    public void createManager(AccountRegisterDTO account) throws BaseException {
+        for (Account acc : accountRepository.findAll()
         ) {
-            if( acc.getLogin().equals(account.getLogin())) throw new AccountManagerException(LOGIN_TAKEN);
+            if (acc.getLogin().equals(account.getLogin())) throw new AccountManagerException(LOGIN_TAKEN);
         }
         Manager manager = new Manager();
-        Account res = AccountMapper.toAccountWithPassword(account,passwordEncoder.encode(account.getPassword()));
+        Account res = AccountMapper.toAccountWithPassword(account, passwordEncoder.encode(account.getPassword()));
         res.setAccessLevel(manager);
         manager.setAccount(res);
         accountRepository.save(res);
     }
-    public void createAdmin(AccountRegisterDTO account)throws BaseException{
-        for (Account acc: accountRepository.findAll()
+
+    public void createAdmin(AccountRegisterDTO account) throws BaseException {
+        for (Account acc : accountRepository.findAll()
         ) {
-            if( acc.getLogin().equals(account.getLogin())) throw new AccountManagerException(LOGIN_TAKEN);
+            if (acc.getLogin().equals(account.getLogin())) throw new AccountManagerException(LOGIN_TAKEN);
         }
         Administrator admin = new Administrator();
-        Account res = AccountMapper.toAccountWithPassword(account,passwordEncoder.encode(account.getPassword()));
+        Account res = AccountMapper.toAccountWithPassword(account, passwordEncoder.encode(account.getPassword()));
         res.setAccessLevel(admin);
         admin.setAccount(res);
         accountRepository.save(res);
     }
+
     public void updateCustomer(ChangeCustomerDTO dto) throws BaseException {
-       Account account = accountRepository.findCustomerByLogin(dto.getLogin());
-       Customer customer = (Customer) account.getAccessLevel();
+        Account account = accountRepository.findCustomerByLogin(dto.getLogin());
+        Customer customer = (Customer) account.getAccessLevel();
         checkForOptimisticLock(dto.getVersion(), account.getVersion());
         account.setEmail(dto.getEmail());
         customer.setFirstName(dto.getFirstName());
@@ -129,12 +144,14 @@ public class AccountManager {
         accountRepository.save(account);
 
     }
+
     public void updateManager(ChangeAccountDTO dto) throws BaseException {
         Account account = accountRepository.findAccountByLogin(dto.getLogin());
         checkForOptimisticLock(dto.getVersion(), account.getVersion());
         account.setEmail(dto.getEmail());
         accountRepository.save(account);
     }
+
     public void updateAdmin(ChangeAccountDTO dto) throws BaseException {
         Account account = accountRepository.findAccountByLogin(dto.getLogin());
         checkForOptimisticLock(dto.getVersion(), account.getVersion());
@@ -142,14 +159,11 @@ public class AccountManager {
         accountRepository.save(account);
 
     }
-    public void blockAccount(String login) throws BaseException {
+
+    public void blockAccount(String login, Long version) throws BaseException {
         Account account = accountRepository.findAccountByLogin(login);
+        checkForOptimisticLock(account.getVersion(), version);
         account.setActive(!account.getActive());
         accountRepository.save(account);
-    }
-
-
-    public static void checkForOptimisticLock(Long v1, Long v2) throws BaseException {
-        if(!v1.equals(v2)) throw new AccountManagerException(OPTIMISTIC_LOCK_EXCEPTION);
     }
 }

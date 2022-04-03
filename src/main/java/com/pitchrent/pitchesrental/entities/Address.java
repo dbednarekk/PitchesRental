@@ -1,9 +1,12 @@
 package com.pitchrent.pitchesrental.entities;
 
+import com.pitchrent.pitchesrental.validators.AddressRegex;
+import com.pitchrent.pitchesrental.validators.PostCode;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Objects;
 
 @Entity
@@ -17,11 +20,16 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
+    @AddressRegex
     private String street;
+    @AddressRegex
     private String city;
+    @AddressRegex
     private String country;
+    @PostCode
     private String postCode;
     @Version
+    @PositiveOrZero
     private Long version;
 
     public Address(String street, String city, String country, String postCode) {

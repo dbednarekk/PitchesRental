@@ -20,8 +20,13 @@ import java.util.List;
 @RequestMapping(path = "/Account")
 public class AccountController {
 
+    private final AccountManager accountManager;
+
     @Autowired
-    AccountManager accountManager;
+    public AccountController(AccountManager accountManager) {
+        this.accountManager = accountManager;
+    }
+
 
     @GetMapping(path = "/all")
     @ResponseStatus(HttpStatus.OK)
@@ -122,8 +127,8 @@ public class AccountController {
     }
 
     @PutMapping(path = "block/{login}")
-    public void blockAccount(@PathVariable String login) throws BaseException {
-        accountManager.blockAccount(login);
+    public void blockAccount(@PathVariable String login, @RequestBody Long version) throws BaseException {
+        accountManager.blockAccount(login, version);
     }
 
 }

@@ -27,9 +27,9 @@ public abstract class Pitch {
     @Column(name = "id", nullable = false)
     private Long id;
     @NotNull
-    @Column(nullable = false,updatable = false)
+    @Column(nullable = false,updatable = false, unique = true)
     private String uuid;
-    @Column(unique=true)
+    @Column(nullable = false,updatable = false,unique=true)
     private String name;
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(updatable = false, nullable = false, name = "address_id")
@@ -45,6 +45,7 @@ public abstract class Pitch {
     private Boolean rented;
     private Boolean active;
     @Version
+    @PositiveOrZero
     private Long version;
 
     public Pitch(String uuid, String name, Address address, Long price, Integer minPeople, Integer maxPeople, PitchType pitchType, Boolean lights, Boolean rented, Boolean active) {

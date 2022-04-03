@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -23,7 +24,7 @@ public class Rental {
     @Column(name = "id", nullable = false)
     private Long id;
     @NotNull
-    @Column(nullable = false,updatable = false)
+    @Column(nullable = false,updatable = false, unique = true)
     private String uuid;
    // @DateTimeFormat(iso = ISO.DATE)
     private LocalDateTime startDate;
@@ -36,6 +37,7 @@ public class Rental {
     @OneToOne
     @JoinColumn(updatable = false, nullable = false, name = "pitch_id")
     private Pitch pitch;
+    @PositiveOrZero
     @Version
     private Long version;
 
