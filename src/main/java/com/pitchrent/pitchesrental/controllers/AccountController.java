@@ -15,9 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin
 @RestController
-@RequestMapping(path = "/Account")
+@RequestMapping(path = "/api/Account")
 public class AccountController {
 
     private final AccountManager accountManager;

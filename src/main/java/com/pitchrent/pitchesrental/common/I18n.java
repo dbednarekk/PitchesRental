@@ -18,4 +18,5 @@ public class I18n {
     public static final String RENT_CANNOT_REMOVE = "error.rent.cannot.remove";
     public static final String INVALID_ADDRESS = "error.regex.invalid.address";
     public static final String ADDRESS_SIZE = "error.regex.max.address.size";
+    public static final String INVALID_CREDENTIALS = "error.no.valid.credentials";
 }

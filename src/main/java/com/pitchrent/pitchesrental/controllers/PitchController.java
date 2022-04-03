@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.pitchrent.pitchesrental.common.I18n.ETAG_EXCEPTION;
-
+@CrossOrigin
 @RestController
-@RequestMapping(path = "/Pitch")
+@RequestMapping(path = "/api/Pitch")
 public class PitchController {
     private final PitchManager pitchManager;
 
